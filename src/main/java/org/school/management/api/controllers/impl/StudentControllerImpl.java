@@ -2,6 +2,9 @@ package org.school.management.api.controllers.impl;
 
 import org.school.management.api.controllers.StudentController;
 import org.school.management.api.dto.StudentDto;
+import org.school.management.api.services.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,33 +19,36 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentControllerImpl implements StudentController {
 
+    @Autowired
+    private StudentService studentService;
+
     @Override
     @GetMapping
-    public List<StudentDto> list() throws Exception {
-        return null;
+    public List<StudentDto> findAll() throws Exception {
+        return this.studentService.findAll();
     }
 
     @Override
     @GetMapping(value = "{id}")
-    public StudentDto showStudent(Long id) throws Exception {
-        return null;
+    public StudentDto findById(Long id) throws Exception {
+        return this.studentService.findById(id);
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<StudentDto> save(StudentDto studentDto) throws Exception {
-        return null;
+    public ResponseEntity<StudentDto> create(StudentDto studentDto) throws Exception {
+        return new ResponseEntity<>(this.studentService.create(studentDto), HttpStatus.CREATED);
     }
 
     @Override
     @PutMapping(value= "{id}")
-    public ResponseEntity<StudentDto> updateStudent(Long id, StudentDto studentDto) throws Exception {
-        return null;
+    public ResponseEntity<StudentDto> edit(Long id, StudentDto studentDto) throws Exception {
+        return new ResponseEntity<>(this.studentService.edit(id,studentDto), HttpStatus.OK);
     }
 
     @Override
     @DeleteMapping(value= "{id}")
-    public ResponseEntity<String> deleteStudent(Long id) throws Exception {
-        return null;
+    public ResponseEntity<String> delete(Long id) throws Exception {
+        return new ResponseEntity<>(this.studentService.delete(id), HttpStatus.OK);
     }
 }

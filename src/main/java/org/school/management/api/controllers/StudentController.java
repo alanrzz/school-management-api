@@ -14,17 +14,17 @@ import java.util.List;
 public interface StudentController {
 
     @ApiOperation(value = "Obtener todos los estudiantes.")
-    List<StudentDto> list() throws Exception;
+    List<StudentDto> findAll() throws Exception;
 
-    @ApiOperation(value = "Buscar un estudiante por ID.", response = StudentDto.class)
-    StudentDto showStudent(@PathVariable("id") Long id) throws Exception;
+    @ApiOperation(value = "Buscar un estudiante.", response = StudentDto.class)
+    StudentDto findById(@PathVariable("id") Long id) throws Exception;
 
     @ApiOperation(value = "Registrar un nuevo estudiante.")
-    ResponseEntity<StudentDto> save(@Valid @RequestBody StudentDto studentDto) throws Exception;
+    ResponseEntity<StudentDto> create(@Valid @RequestBody StudentDto studentDto) throws Exception;
 
-    @ApiOperation(value = "Actualizar un estudiante.")
-    public ResponseEntity<StudentDto> updateStudent(@PathVariable("id") Long id, @Valid @RequestBody StudentDto studentDto) throws Exception;
+    @ApiOperation(value = "Editar un estudiante.")
+    ResponseEntity<StudentDto> edit(@PathVariable("id") Long id, @Valid @RequestBody StudentDto studentDto) throws Exception;
 
     @ApiOperation(value = "Eliminar un estudiante.")
-    public ResponseEntity<String> deleteStudent(@PathVariable("id") Long id) throws Exception;
+    ResponseEntity<String> delete(@PathVariable("id") Long id) throws Exception;
 }
