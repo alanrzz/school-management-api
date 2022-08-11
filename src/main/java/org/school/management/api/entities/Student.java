@@ -1,5 +1,6 @@
 package org.school.management.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -53,9 +54,7 @@ public class Student implements Serializable {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-
-    @OneToMany(mappedBy = "student")
-    private Set<CourseRegistration> registrations;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "students")
+    private Set<Course> courses = new HashSet<>();
 }

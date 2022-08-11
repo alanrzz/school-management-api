@@ -1,12 +1,14 @@
 package org.school.management.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.school.management.api.entities.Course;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -30,7 +32,6 @@ public class StudentDto {
 
     private String address;
 
-    private LocalDateTime createdDate;
-
-    private Set<CourseRegistrationDto> registrations;
+    @JsonIgnore
+    private Set<Course> courses = new HashSet<>();
 }

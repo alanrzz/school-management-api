@@ -11,12 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -52,10 +49,4 @@ public class Teacher implements Serializable {
 
     @Column(name = "address", nullable = false)
     private String address;
-
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-
-    @OneToMany(mappedBy = "teacher")
-    private Set<CourseRegistration> registrations;
 }

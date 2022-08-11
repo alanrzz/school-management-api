@@ -5,6 +5,8 @@ spring:
     password: password
     driverClassName: org.h2.Driver
   jpa:
+    hibernate:
+      ddl-auto: create
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
   mvc:
     path-match:

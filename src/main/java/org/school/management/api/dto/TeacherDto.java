@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,8 +26,4 @@ public class TeacherDto {
     private Integer age;
 
     private String address;
-
-    private LocalDateTime createdDate;
-
-    private Set<CourseRegistrationDto> registrations;
 }

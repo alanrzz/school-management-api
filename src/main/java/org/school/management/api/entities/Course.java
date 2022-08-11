@@ -11,11 +11,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -44,9 +46,11 @@ public class Course implements Serializable {
     @Column(name = "level", nullable = false)
     private String level;
 
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-
-    @OneToMany(mappedBy = "course")
-    private Set<CourseRegistration> registrations;
+    @ManyToMany
+    @JoinTable(
+            name = "students_enrolled",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<Student> students = new HashSet<>();
 }
