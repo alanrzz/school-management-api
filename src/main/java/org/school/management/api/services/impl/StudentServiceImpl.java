@@ -1,6 +1,7 @@
 package org.school.management.api.services.impl;
 
 import org.school.management.api.dto.StudentDto;
+import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
 import org.school.management.api.repositories.StudentRepository;
 import org.school.management.api.services.ConvertService;
@@ -26,8 +27,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto findById(Long id) throws Exception {
-        return this.convertService.convertToDto(this.studentRepository.findById(id)
-                .orElseThrow(() -> new Exception("No existe un estudiante con ID = " + id)));
+        return this.convertService.convertToDto(this.findOrFail(id));
     }
 
     @Override
@@ -43,8 +43,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public String delete(Long id) {
+    public String delete(Long id) throws Exception {
+        Student student = this.findOrFail(id);
+        for (Course course : student.getCourses())
+            student.removeCourse(course);
         this.studentRepository.deleteById(id);
         return "Estudiante eliminado.";
+    }
+
+    private Student findOrFail(Long id) throws Exception {
+        return this.studentRepository.findById(id).orElseThrow(() -> new Exception("No existe un estudiante con ID = " + id));
     }
 }

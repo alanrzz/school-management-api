@@ -1,5 +1,6 @@
 package org.school.management.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,4 +53,8 @@ public class Teacher implements Serializable {
 
     @Column(name = "address", nullable = false)
     private String address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "teacher")
+    private Set<Course> courses = new HashSet<>();
 }

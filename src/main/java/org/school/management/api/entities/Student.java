@@ -57,4 +57,14 @@ public class Student implements Serializable {
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses = new HashSet<>();
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+        course.getStudents().add(this);
+    }
+
+    public void removeCourse(Course course){
+        this.courses.remove(course);
+        course.getStudents().remove(this);
+    }
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.school.management.api.entities.Student;
+import org.school.management.api.entities.Teacher;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,4 +27,6 @@ public class CourseDto {
     private String level;
 
     private Set<Student> students = new HashSet<>();
+
+    private Teacher teacher;
 }
