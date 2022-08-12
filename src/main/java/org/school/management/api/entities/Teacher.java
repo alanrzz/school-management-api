@@ -57,4 +57,9 @@ public class Teacher implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")
     private Set<Course> courses = new HashSet<>();
+
+    public void removeCourse(Course course){
+        this.courses.remove(course);
+        course.setTeacher(null);
+    }
 }

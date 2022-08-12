@@ -1,6 +1,7 @@
 package org.school.management.api.services.impl;
 
 import org.school.management.api.dto.TeacherDto;
+import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Teacher;
 import org.school.management.api.repositories.TeacherRepository;
 import org.school.management.api.services.ConvertService;
@@ -26,8 +27,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherDto findById(Long id) throws Exception {
-        return this.convertService.convertToDto(this.teacherRepository.findById(id)
-                .orElseThrow(() -> new Exception("No existe un profesor con ID = " + id)));
+        return this.convertService.convertToDto(this.findOrFail(id));
     }
 
     @Override
@@ -43,8 +43,15 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public String delete(Long id) {
+    public String delete(Long id) throws Exception {
+        Teacher teacher = this.findOrFail(id);
+        for (Course course : teacher.getCourses())
+            teacher.removeCourse(course);
         this.teacherRepository.deleteById(id);
         return "Profesor eliminado.";
+    }
+
+    private Teacher findOrFail(Long id) throws Exception {
+        return this.teacherRepository.findById(id).orElseThrow(() -> new Exception("No existe un profesor con ID = " + id));
     }
 }
