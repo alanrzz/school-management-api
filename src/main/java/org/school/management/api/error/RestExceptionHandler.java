@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class RestExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<Object> AllUnhandledExceptions(Exception ex) {
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+        apiError.setMessage(ex.getCause().toString());
+        return this.buildResponse(apiError);
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     protected ResponseEntity<Object> ResourceNotFoundException(ResourceNotFoundException ex) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
