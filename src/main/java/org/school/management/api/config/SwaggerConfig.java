@@ -1,5 +1,6 @@
 package org.school.management.api.config;
 
+import org.school.management.api.controllers.CourseController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,7 +19,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.school.management.api.controllers"))
+                .apis(RequestHandlerSelectors.basePackage(CourseController.class.getPackageName()))
                 .build()
                 .apiInfo(metadata());
     }

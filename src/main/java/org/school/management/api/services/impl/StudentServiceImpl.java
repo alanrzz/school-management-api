@@ -8,9 +8,10 @@ import org.school.management.api.repositories.StudentRepository;
 import org.school.management.api.services.ConvertService;
 import org.school.management.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -22,8 +23,8 @@ public class StudentServiceImpl implements StudentService {
     private ConvertService convertService;
 
     @Override
-    public List<StudentDto> findAll() {
-        return this.studentRepository.findAll().stream().map(this.convertService::convertToDto).toList();
+    public HashMap<String, Object> findAll(Pageable pageable) {
+        return this.convertService.convertToStudentFormat(this.studentRepository.findAll(pageable));
     }
 
     @Override
