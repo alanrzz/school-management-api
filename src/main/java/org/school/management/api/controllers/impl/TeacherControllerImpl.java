@@ -4,6 +4,7 @@ import org.school.management.api.controllers.TeacherController;
 import org.school.management.api.dto.TeacherDto;
 import org.school.management.api.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/teachers")
@@ -24,8 +25,8 @@ public class TeacherControllerImpl implements TeacherController {
 
     @Override
     @GetMapping
-    public List<TeacherDto> findAll() throws Exception {
-        return this.teacherService.findAll();
+    public HashMap<String, Object> findAll(Pageable pageable) throws Exception {
+        return this.teacherService.findAll(pageable);
     }
 
     @Override

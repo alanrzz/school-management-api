@@ -25,4 +25,6 @@ public interface ConvertService {
     CourseDto convertToDto(Course course);
 
     HashMap<String, Object> convertToStudentFormat(Page<Student> students);
+
+    HashMap<String, Object> convertToTeacherFormat(Page<Teacher> teachers);
 }

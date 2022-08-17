@@ -8,6 +8,7 @@ import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
 import org.school.management.api.entities.Teacher;
 import org.school.management.api.repositories.StudentRepository;
+import org.school.management.api.repositories.TeacherRepository;
 import org.school.management.api.services.ConvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,9 @@ public class ConvertServiceImpl implements ConvertService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    TeacherRepository teacherRepository;
 
     @Override
     public Student convertToEntity(StudentDto studentDto) {
@@ -60,12 +64,29 @@ public class ConvertServiceImpl implements ConvertService {
     @Override
     public HashMap<String, Object> convertToStudentFormat(Page<Student> students) {
         HashMap<String, Object> studentFormat = new HashMap<>();
-        studentFormat.put("meta", this.generateMeta(studentRepository.count(),students));
+        studentFormat.put("meta", this.generateStudentMeta(studentRepository.count(),students));
         studentFormat.put("data", students.getContent().stream().map(this::convertToDto));
         return studentFormat;
     }
 
-    private HashMap<String, Object> generateMeta(Long records, Page<Student> page) {
+    @Override
+    public HashMap<String, Object> convertToTeacherFormat(Page<Teacher> teachers) {
+        HashMap<String, Object> teacherFormat = new HashMap<>();
+        teacherFormat.put("meta", this.generateTeacherMeta(teacherRepository.count(),teachers));
+        teacherFormat.put("data", teachers.getContent().stream().map(this::convertToDto));
+        return teacherFormat;
+    }
+
+    private HashMap<String, Object> generateStudentMeta(Long records, Page<Student> page) {
+        HashMap<String, Object> meta = new HashMap<>();
+        meta.put("totalRecords", records);
+        meta.put("filteredCount", page.getTotalElements());
+        meta.put("pageNumber", page.getNumber());
+        meta.put("pageSize", page.getSize());
+        return meta;
+    }
+
+    private HashMap<String, Object> generateTeacherMeta(Long records, Page<Teacher> page) {
         HashMap<String, Object> meta = new HashMap<>();
         meta.put("totalRecords", records);
         meta.put("filteredCount", page.getTotalElements());
