@@ -7,9 +7,10 @@ import org.school.management.api.repositories.CourseRepository;
 import org.school.management.api.services.ConvertService;
 import org.school.management.api.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -21,8 +22,8 @@ public class CourseServiceImpl implements CourseService {
     private ConvertService convertService;
 
     @Override
-    public List<CourseDto> findAll() {
-        return this.courseRepository.findAll().stream().map(this.convertService::convertToDto).toList();
+    public HashMap<String, Object> findAll(Pageable pageable) {
+        return this.convertService.convertToCourseFormat(this.courseRepository.findAll(pageable));
     }
 
     @Override

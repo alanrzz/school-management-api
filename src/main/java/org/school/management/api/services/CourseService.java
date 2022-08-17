@@ -1,12 +1,13 @@
 package org.school.management.api.services;
 
 import org.school.management.api.dto.CourseDto;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.HashMap;
 
 public interface CourseService {
 
-    List<CourseDto> findAll() throws Exception;
+    HashMap<String, Object> findAll(Pageable pageable) throws Exception;
 
     CourseDto findById(Long id) throws Exception;
 

@@ -7,6 +7,7 @@ import org.school.management.api.dto.TeacherDto;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
 import org.school.management.api.entities.Teacher;
+import org.school.management.api.repositories.CourseRepository;
 import org.school.management.api.repositories.StudentRepository;
 import org.school.management.api.repositories.TeacherRepository;
 import org.school.management.api.services.ConvertService;
@@ -24,6 +25,9 @@ public class ConvertServiceImpl implements ConvertService {
 
     @Autowired
     TeacherRepository teacherRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
 
     @Override
     public Student convertToEntity(StudentDto studentDto) {
@@ -77,6 +81,14 @@ public class ConvertServiceImpl implements ConvertService {
         return teacherFormat;
     }
 
+    @Override
+    public HashMap<String, Object> convertToCourseFormat(Page<Course> courses) {
+        HashMap<String, Object> teacherFormat = new HashMap<>();
+        teacherFormat.put("meta", this.generateCourseMeta(courseRepository.count(),courses));
+        teacherFormat.put("data", courses.getContent().stream().map(this::convertToDto));
+        return teacherFormat;
+    }
+
     private HashMap<String, Object> generateStudentMeta(Long records, Page<Student> page) {
         HashMap<String, Object> meta = new HashMap<>();
         meta.put("totalRecords", records);
@@ -87,6 +99,15 @@ public class ConvertServiceImpl implements ConvertService {
     }
 
     private HashMap<String, Object> generateTeacherMeta(Long records, Page<Teacher> page) {
+        HashMap<String, Object> meta = new HashMap<>();
+        meta.put("totalRecords", records);
+        meta.put("filteredCount", page.getTotalElements());
+        meta.put("pageNumber", page.getNumber());
+        meta.put("pageSize", page.getSize());
+        return meta;
+    }
+
+    private HashMap<String, Object> generateCourseMeta(Long records, Page<Course> page) {
         HashMap<String, Object> meta = new HashMap<>();
         meta.put("totalRecords", records);
         meta.put("filteredCount", page.getTotalElements());

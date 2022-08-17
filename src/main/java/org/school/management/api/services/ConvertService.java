@@ -27,4 +27,6 @@ public interface ConvertService {
     HashMap<String, Object> convertToStudentFormat(Page<Student> students);
 
     HashMap<String, Object> convertToTeacherFormat(Page<Teacher> teachers);
+
+    HashMap<String, Object> convertToCourseFormat(Page<Course> courses);
 }
