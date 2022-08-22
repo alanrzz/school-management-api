@@ -4,12 +4,23 @@ spring:
     username: sa
     password: password
     driverClassName: org.h2.Driver
+  data:
+    jdbc:
+      repositories:
+        enabled: false
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
   mvc:
     path-match:
       matching-strategy: ant-path-matcher
   h2:
     console.enabled: true
+  main:
+    banner-mode: # or OFF
+logging:
+  level:
+    org:
+      springframework: # or OFF
+    root: # or OFF

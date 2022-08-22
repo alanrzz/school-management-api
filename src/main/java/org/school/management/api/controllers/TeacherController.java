@@ -20,10 +20,10 @@ import java.util.HashMap;
 public interface TeacherController {
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Número de página (0..N).", defaultValue = "0"),
-            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Número de registros por página.", defaultValue = "10"),
-            @ApiImplicitParam(name = "sort", dataType = "integer", paramType = "query", value = "Criterio de ordenamiento en formato: propiedades(,asc | ,desc)."
-                    + "Orden por defecto es ID DESC.\nOrdenamiento con múltiples criterios es soportado.", defaultValue = "id,desc")})
+            @ApiImplicitParam(name = "page", dataTypeClass = Integer.class, paramType = "query", value = "Número de página.", defaultValue = "0", example = "0"),
+            @ApiImplicitParam(name = "size", dataTypeClass = Integer.class, paramType = "query", value = "Número de registros por página.", defaultValue = "10", example = "10"),
+            @ApiImplicitParam(name = "sort", dataTypeClass = String.class, paramType = "query", value = "Criterio de ordenamiento en formato: propiedades (,asc | ,desc)."
+                    + "\nPor defecto es: id,desc.", defaultValue = "id,desc")})
     @ApiOperation(value = "Obtener todos los profesores.")
     HashMap<String, Object> findAll(@ApiIgnore @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) throws Exception;
 
