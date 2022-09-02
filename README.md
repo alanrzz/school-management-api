@@ -1,2 +1,3 @@
 # School Management Api
-Keeping records of student and staff data, fees, exams, grades etc.
+API REST desarrollada con SpringBoot para mantener registros de datos de estudiantes, profesores, calificaciones, etc.
+
