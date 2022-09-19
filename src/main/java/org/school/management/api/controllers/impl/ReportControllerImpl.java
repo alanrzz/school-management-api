@@ -20,4 +20,10 @@ public class ReportControllerImpl implements ReportController {
     public ResponseEntity<Object> generateStudentsReport() throws Exception {
         return this.reportService.generateStudentsReport();
     }
+
+    @Override
+    @GetMapping("teachers")
+    public ResponseEntity<Object> generateTeachersReport() throws Exception {
+        return this.reportService.generateTeachersReport();
+    }
 }

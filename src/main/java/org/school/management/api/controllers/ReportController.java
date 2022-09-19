@@ -9,4 +9,7 @@ public interface ReportController {
 
     @ApiOperation(value = "Generar reporte de estudiantes.")
     ResponseEntity<Object> generateStudentsReport() throws Exception;
+
+    @ApiOperation(value = "Generar reporte de profesores.")
+    ResponseEntity<Object> generateTeachersReport() throws Exception;
 }
