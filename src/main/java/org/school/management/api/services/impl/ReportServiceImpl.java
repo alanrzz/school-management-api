@@ -1,16 +1,12 @@
 package org.school.management.api.services.impl;
 
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.school.management.api.dto.StudentDto;
+import org.school.management.api.dto.TeacherDto;
+import org.school.management.api.exceptions.ResourceNotFoundException;
 import org.school.management.api.repositories.StudentRepository;
+import org.school.management.api.repositories.TeacherRepository;
 import org.school.management.api.services.ConvertService;
 import org.school.management.api.services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.school.management.api.enums.Reports.CONTENT_DISPOSITION_FORM_DATA;
-import static org.school.management.api.enums.Reports.IN_EXTENSION;
-import static org.school.management.api.enums.Reports.OUT_EXTENSION;
-import static org.school.management.api.enums.Reports.REPORTS_FOLDER;
-import static org.school.management.api.enums.Reports.STUDENTS_REPORT;
+import static org.school.management.api.enums.Reports.*;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -43,12 +35,27 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    TeacherRepository teacherRepository;
+
     @Override
     public ResponseEntity<Object> generateStudentsReport() {
         List<StudentDto> students = this.studentRepository.findAll().stream().map(convertService::convertToDto).collect(Collectors.toList());
+        if(students.isEmpty())
+            throw new ResourceNotFoundException("No existen estudiantes para generar el reporte.");
         Map<String,Object> params = new HashMap<>();
         params.put("students", new JRBeanCollectionDataSource(students));
         return generateReport(STUDENTS_REPORT.getName(), params, new JREmptyDataSource());
+    }
+
+    @Override
+    public ResponseEntity<Object> generateTeachersReport() {
+        List<TeacherDto> teachers = this.teacherRepository.findAll().stream().map(convertService::convertToDto).collect(Collectors.toList());
+        if(teachers.isEmpty())
+            throw new ResourceNotFoundException("No existen profesores para generar el reporte.");
+        Map<String,Object> params = new HashMap<>();
+        params.put("teachers", new JRBeanCollectionDataSource(teachers));
+        return generateReport(TEACHERS_REPORT.getName(), params, new JREmptyDataSource());
     }
 
     private ResponseEntity<Object> generateReport(String filename, Map<String, Object> params, JRDataSource datasource) {
