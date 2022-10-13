@@ -1,7 +1,7 @@
 # School Management Api
 
 ### Introducción
-API REST desarrollada con el objetivo de mantener registros de datos en una institución educativa.
+API REST desarrollada con el objetivo de mantener el registro de distintos datos en una institución educativa.
 
 ### Caracteristicas
 * CRUD: estudiantes, profesores, cursos, etc.
