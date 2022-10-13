@@ -34,6 +34,9 @@ mvn spring-boot:run
 | PUT | /api/students/:id | Editar un estudiante por su ID |
 | DELETE | /api/students/:id | Eliminar un estudiante por su ID |
 
+### Autorización
+🏗️...
+
 ### Tecnologias usadas
 * [Java SE Development Kit 17.0.4.1](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 * [SpringBoot](https://spring.io/projects/spring-boot)
