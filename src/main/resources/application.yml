@@ -10,7 +10,7 @@ spring:
         enabled: false
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
   mvc:
     path-match:
@@ -24,3 +24,6 @@ logging:
     org:
       springframework: # or OFF
     root: # or OFF
+security:
+  jwt-secret: bf5p4ialbXNfUZAkhOQmNLa3EGry7Ah5
+  jwt-expiration-ms: 86400000
