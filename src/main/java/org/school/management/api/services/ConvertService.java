@@ -1,8 +1,10 @@
 package org.school.management.api.services;
 
+import org.school.management.api.dto.AttendanceDto;
 import org.school.management.api.dto.CourseDto;
 import org.school.management.api.dto.StudentDto;
 import org.school.management.api.dto.TeacherDto;
+import org.school.management.api.entities.Attendance;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
 import org.school.management.api.entities.Teacher;
@@ -24,9 +26,15 @@ public interface ConvertService {
 
     CourseDto convertToDto(Course course);
 
+    Attendance convertToEntity(AttendanceDto attendanceDto);
+
+    AttendanceDto convertToDto(Attendance attendance);
+
     HashMap<String, Object> convertToStudentFormat(Page<Student> students);
 
     HashMap<String, Object> convertToTeacherFormat(Page<Teacher> teachers);
 
     HashMap<String, Object> convertToCourseFormat(Page<Course> courses);
+
+    HashMap<String, Object> convertToAttendanceFormat(Page<Attendance> attendances);
 }

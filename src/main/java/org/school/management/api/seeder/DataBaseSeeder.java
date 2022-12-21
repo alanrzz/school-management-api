@@ -15,6 +15,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -35,9 +36,7 @@ public class DataBaseSeeder {
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedRoles();
-        seedCourses();
-        seedTeachers();
-        seedStudents();
+        seedRelationships();
     }
 
     private void seedRoles() {
@@ -48,30 +47,42 @@ public class DataBaseSeeder {
         roleRepository.saveAll(roles);
     }
 
-    private void seedCourses() {
+    private List<Course> seedCourses() {
         List<Course> courses = new ArrayList<>();
         courses.add(new Course(1L,"Matematica","N/A","Primer año",null,null));
         courses.add(new Course(2L,"Fisica","N/A","Primer año",null,null));
         courses.add(new Course(3L,"Mecanica","N/A","Segundo año",null,null));
         courses.add(new Course(4L,"Automatizacion","N/A","Segundo año",null,null));
-        courseRepository.saveAll(courses);
+        return courseRepository.saveAll(courses);
     }
 
-    private void seedTeachers() {
+    private List<Teacher> seedTeachers() {
         List<Teacher> teachers = new ArrayList<>();
-        teachers.add(new Teacher(1L,"Juan Diaz","juan@gmail.com","+543764010101","M",30,"Posadas",null,null));
-        teachers.add(new Teacher(2L,"Miguel Gimenez","miguel@gmail.com","+543764010101","M",27,"Posadas",null,null));
-        teachers.add(new Teacher(3L,"Santiago Lopez","santiago@gmail.com","+543764010101","M",35,"Posadas",null,null));
-        teachers.add(new Teacher(4L,"Enrique Rodriguez","enrique@gmail.com","+543764010101","M",35,"Posadas",null,null));
-        teacherRepository.saveAll(teachers);
+        teachers.add(new Teacher(1L,"Carles Solorzano","carles@gmail.com","+543764010101","M",30,"Posadas",null,null));
+        teachers.add(new Teacher(2L,"Rubén Paz","ruben@gmail.com","+543764010101","M",27,"Posadas",null,null));
+        teachers.add(new Teacher(3L,"Salvador de Jesús","salvador@gmail.com","+543764010101","M",35,"Posadas",null,null));
+        teachers.add(new Teacher(4L,"Ángel Valdivia","angel@gmail.com","+543764010101","M",35,"Posadas",null,null));
+        return teacherRepository.saveAll(teachers);
     }
 
-    private void seedStudents() {
+    private List<Student> seedStudents() {
         List<Student> students = new ArrayList<>();
         students.add(new Student(1L,"Ovidio Téllez","ovidio@gmail.com","+543764010101","M",18,"Posadas",null,null));
         students.add(new Student(2L,"Gregorio Serrano","gregorio@gmail.com","+543764010101","M",20,"Posadas",null,null));
         students.add(new Student(3L,"Alex Moliner","alex@gmail.com","+543764010101","M",19,"Posadas",null,null));
         students.add(new Student(4L,"Marita Gárate","marita@gmail.com","+543764010101","M",17,"Posadas",null,null));
-        studentRepository.saveAll(students);
+        return studentRepository.saveAll(students);
+    }
+
+    private void seedRelationships() {
+        List<Course> courses = seedCourses();
+        List<Teacher> teachers = seedTeachers();
+        List<Student> students = seedStudents();
+        for(int i = 0; i < courses.size(); i++){
+            Course course = courses.get(i);
+            course.setTeacher(teachers.get(i));
+            course.setStudents(new HashSet<>(students));
+        }
+        courseRepository.saveAll(courses);
     }
 }

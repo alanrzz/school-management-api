@@ -33,5 +33,5 @@ public class StudentDto {
     private String address;
 
     @JsonIgnore
-    private Set<Course> courses = new HashSet<>();
+    private Set<CourseDto> courses = new HashSet<>();
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,17 +15,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CourseDto {
+public class AttendanceDto {
 
     private Long id;
 
-    private String name;
-
-    private String description;
-
-    private String level;
+    private LocalDate attendanceDate;
 
     private Set<StudentDto> students = new HashSet<>();
 
-    private TeacherDto teacher;
+    private Set<TeacherDto> teachers = new HashSet<>();
 }
