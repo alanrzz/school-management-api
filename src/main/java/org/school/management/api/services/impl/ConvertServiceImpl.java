@@ -86,7 +86,7 @@ public class ConvertServiceImpl implements ConvertService {
     @Override
     public HashMap<String, Object> convertToStudentFormat(Page<Student> students) {
         HashMap<String, Object> studentFormat = new HashMap<>();
-        studentFormat.put("meta", this.generateStudentMeta(studentRepository.count(),students));
+        studentFormat.put("meta", this.generateMeta(studentRepository.count(),students));
         studentFormat.put("data", students.getContent().stream().map(this::convertToDto));
         return studentFormat;
     }
@@ -94,7 +94,7 @@ public class ConvertServiceImpl implements ConvertService {
     @Override
     public HashMap<String, Object> convertToTeacherFormat(Page<Teacher> teachers) {
         HashMap<String, Object> teacherFormat = new HashMap<>();
-        teacherFormat.put("meta", this.generateTeacherMeta(teacherRepository.count(),teachers));
+        teacherFormat.put("meta", this.generateMeta(teacherRepository.count(),teachers));
         teacherFormat.put("data", teachers.getContent().stream().map(this::convertToDto));
         return teacherFormat;
     }
@@ -102,7 +102,7 @@ public class ConvertServiceImpl implements ConvertService {
     @Override
     public HashMap<String, Object> convertToCourseFormat(Page<Course> courses) {
         HashMap<String, Object> teacherFormat = new HashMap<>();
-        teacherFormat.put("meta", this.generateCourseMeta(courseRepository.count(),courses));
+        teacherFormat.put("meta", this.generateMeta(courseRepository.count(),courses));
         teacherFormat.put("data", courses.getContent().stream().map(this::convertToDto));
         return teacherFormat;
     }
@@ -110,39 +110,12 @@ public class ConvertServiceImpl implements ConvertService {
     @Override
     public HashMap<String, Object> convertToAttendanceFormat(Page<Attendance> attendances) {
         HashMap<String, Object> attendanceFormat = new HashMap<>();
-        attendanceFormat.put("meta", this.generateAttendanceMeta(attendanceRepository.count(),attendances));
+        attendanceFormat.put("meta", this.generateMeta(attendanceRepository.count(),attendances));
         attendanceFormat.put("data", attendances.getContent().stream().map(this::convertToDto));
         return attendanceFormat;
     }
 
-    private HashMap<String, Object> generateStudentMeta(Long records, Page<Student> page) {
-        HashMap<String, Object> meta = new HashMap<>();
-        meta.put("totalRecords", records);
-        meta.put("filteredCount", page.getTotalElements());
-        meta.put("pageNumber", page.getNumber());
-        meta.put("pageSize", page.getSize());
-        return meta;
-    }
-
-    private HashMap<String, Object> generateTeacherMeta(Long records, Page<Teacher> page) {
-        HashMap<String, Object> meta = new HashMap<>();
-        meta.put("totalRecords", records);
-        meta.put("filteredCount", page.getTotalElements());
-        meta.put("pageNumber", page.getNumber());
-        meta.put("pageSize", page.getSize());
-        return meta;
-    }
-
-    private HashMap<String, Object> generateCourseMeta(Long records, Page<Course> page) {
-        HashMap<String, Object> meta = new HashMap<>();
-        meta.put("totalRecords", records);
-        meta.put("filteredCount", page.getTotalElements());
-        meta.put("pageNumber", page.getNumber());
-        meta.put("pageSize", page.getSize());
-        return meta;
-    }
-
-    private HashMap<String, Object> generateAttendanceMeta(Long records, Page<Attendance> page) {
+    private HashMap<String, Object> generateMeta(Long records, Page<?> page) {
         HashMap<String, Object> meta = new HashMap<>();
         meta.put("totalRecords", records);
         meta.put("filteredCount", page.getTotalElements());
