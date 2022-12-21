@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentControllerImpl implements StudentController {
 
     @Autowired

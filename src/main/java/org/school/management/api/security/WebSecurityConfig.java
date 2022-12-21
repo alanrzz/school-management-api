@@ -19,21 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] AUTH_WHITELIST = {
-            "/auth/**",
-            // -- Swagger UI v2
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**",
-            // -- Swagger UI v3 (OpenAPI)
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-    };
-
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -67,8 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated();
+                .authorizeRequests().antMatchers("/api/**").authenticated()
+                .anyRequest().permitAll();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

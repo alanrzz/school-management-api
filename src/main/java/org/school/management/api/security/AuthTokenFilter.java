@@ -1,6 +1,5 @@
 package org.school.management.api.security;
 
-import org.school.management.api.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,8 +37,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            // FIXME - Cambiar excepcion
-            throw new ResourceNotFoundException("No se puede establecer la autenticación de usuario: " + e);
+            // FIXME - Mostrar respuesta en el body (e.getMessage())
         }
         filterChain.doFilter(request, response);
     }
@@ -47,7 +45,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer "))
-            return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7);
         return null;
     }
 }
