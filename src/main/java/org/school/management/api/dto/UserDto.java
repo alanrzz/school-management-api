@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -13,13 +14,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SignupRequestDto {
+public class UserDto {
+
+    private Long id;
 
     private String username;
 
     private String email;
 
-    private Set<String> roles;
-
-    private String password;
+    private Set<RoleDto> roles = new HashSet<>();
 }

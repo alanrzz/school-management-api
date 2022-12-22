@@ -51,6 +51,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     private Attendance findOrFail(Long id) {
-        return this.attendanceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe una asistencia con ID = " + id));
+        return this.attendanceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe una asistencia con ID = " + id + "."));
     }
 }

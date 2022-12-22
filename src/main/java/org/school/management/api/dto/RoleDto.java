@@ -5,21 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Set;
+import org.school.management.api.enums.UserRole;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SignupRequestDto {
+public class RoleDto {
 
-    private String username;
+    private Long id;
 
-    private String email;
-
-    private Set<String> roles;
-
-    private String password;
+    private UserRole name;
 }

@@ -55,6 +55,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private Student findOrFail(Long id) {
-        return this.studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe un estudiante con ID = " + id));
+        return this.studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe un estudiante con ID = " + id + "."));
     }
 }

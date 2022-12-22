@@ -23,5 +23,7 @@ public class JwtResponseDto {
 
     private List<String> roles;
 
-    private String token;
+    private String accessToken;
+
+    private String type;
 }
