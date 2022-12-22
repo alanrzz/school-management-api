@@ -30,6 +30,7 @@ public class AttendanceControllerImpl implements AttendanceController {
     }
 
     @Override
+    @GetMapping(value = "{id}")
     public AttendanceDto findById(Long id) throws Exception {
         return this.attendanceService.findById(id);
     }

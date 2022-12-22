@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@Api(value = "Authentication operations", tags = "Auth")
-public interface AuthController {
+@Api(value = "Authentication operations", tags = "Authentication")
+public interface AuthenticationController {
 
     @ApiOperation(value = "Autenticar un usuario.", response = ResponseEntity.class)
     ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequestDto loginRequestDto);
