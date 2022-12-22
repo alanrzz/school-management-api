@@ -1,5 +1,6 @@
 package org.school.management.api.services;
 
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.dto.TeacherDto;
 import org.springframework.data.domain.Pageable;
 
@@ -15,5 +16,5 @@ public interface TeacherService {
 
     TeacherDto edit(Long id, TeacherDto teacherDto) throws Exception;
 
-    String delete(Long id) throws Exception;
+    MessageResponseDto delete(Long id) throws Exception;
 }

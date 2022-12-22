@@ -1,6 +1,7 @@
 package org.school.management.api.controllers.impl;
 
 import org.school.management.api.controllers.TeacherController;
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.dto.TeacherDto;
 import org.school.management.api.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class TeacherControllerImpl implements TeacherController {
 
     @Override
     @DeleteMapping(value= "{id}")
-    public ResponseEntity<String> delete(Long id) throws Exception {
+    public ResponseEntity<MessageResponseDto> delete(Long id) throws Exception {
         return new ResponseEntity<>(this.teacherService.delete(id), HttpStatus.OK);
     }
 }

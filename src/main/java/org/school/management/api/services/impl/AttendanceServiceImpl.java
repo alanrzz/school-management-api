@@ -1,6 +1,7 @@
 package org.school.management.api.services.impl;
 
 import org.school.management.api.dto.AttendanceDto;
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.entities.Attendance;
 import org.school.management.api.exceptions.ResourceNotFoundException;
 import org.school.management.api.repositories.AttendanceRepository;
@@ -8,6 +9,7 @@ import org.school.management.api.services.AttendanceService;
 import org.school.management.api.services.ConvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,9 +47,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public String delete(Long id) throws Exception {
+    public MessageResponseDto delete(Long id) throws Exception {
         this.attendanceRepository.delete(this.findOrFail(id));
-        return "Asistencia eliminada.";
+        return new MessageResponseDto(HttpStatus.OK, "Asistencia eliminada exitosamente!");
     }
 
     private Attendance findOrFail(Long id) {

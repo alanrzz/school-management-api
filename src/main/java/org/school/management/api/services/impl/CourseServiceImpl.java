@@ -1,6 +1,7 @@
 package org.school.management.api.services.impl;
 
 import org.school.management.api.dto.CourseDto;
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.entities.Course;
 import org.school.management.api.exceptions.ResourceNotFoundException;
 import org.school.management.api.repositories.CourseRepository;
@@ -8,6 +9,7 @@ import org.school.management.api.services.ConvertService;
 import org.school.management.api.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,9 +47,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public String delete(Long id) {
+    public MessageResponseDto delete(Long id) {
         this.courseRepository.delete(this.findOrFail(id));
-        return "Curso eliminado.";
+        return new MessageResponseDto(HttpStatus.OK, "Curso eliminado exitosamente!");
     }
 
     private Course findOrFail(Long id) {

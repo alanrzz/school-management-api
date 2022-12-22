@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.dto.StudentDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,5 +38,5 @@ public interface StudentController {
     ResponseEntity<StudentDto> edit(@PathVariable("id") Long id, @Valid @RequestBody StudentDto studentDto) throws Exception;
 
     @ApiOperation(value = "Eliminar un estudiante.")
-    ResponseEntity<String> delete(@PathVariable("id") Long id) throws Exception;
+    ResponseEntity<MessageResponseDto> delete(@PathVariable("id") Long id) throws Exception;
 }
