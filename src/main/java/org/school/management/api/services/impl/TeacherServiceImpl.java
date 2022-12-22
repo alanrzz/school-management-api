@@ -55,6 +55,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     private Teacher findOrFail(Long id) {
-        return this.teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe un profesor con ID = " + id));
+        return this.teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe un profesor con ID = " + id + "."));
     }
 }

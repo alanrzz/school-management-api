@@ -5,10 +5,12 @@ import org.school.management.api.dto.AttendanceDto;
 import org.school.management.api.dto.CourseDto;
 import org.school.management.api.dto.StudentDto;
 import org.school.management.api.dto.TeacherDto;
+import org.school.management.api.dto.UserDto;
 import org.school.management.api.entities.Attendance;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
 import org.school.management.api.entities.Teacher;
+import org.school.management.api.entities.User;
 import org.school.management.api.repositories.AttendanceRepository;
 import org.school.management.api.repositories.CourseRepository;
 import org.school.management.api.repositories.StudentRepository;
@@ -81,6 +83,18 @@ public class ConvertServiceImpl implements ConvertService {
     public AttendanceDto convertToDto(Attendance attendance) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(attendance, AttendanceDto.class);
+    }
+
+    @Override
+    public User convertToEntity(UserDto userDto) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(userDto, User.class);
+    }
+
+    @Override
+    public UserDto convertToDto(User user) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override

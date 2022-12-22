@@ -6,11 +6,14 @@ import org.school.management.api.dto.SignupRequestDto;
 import org.school.management.api.entities.Role;
 import org.school.management.api.entities.User;
 import org.school.management.api.enums.UserRole;
+import org.school.management.api.exceptions.AlreadyExistsException;
+import org.school.management.api.exceptions.ResourceNotFoundException;
 import org.school.management.api.repositories.RoleRepository;
 import org.school.management.api.repositories.UserRepository;
 import org.school.management.api.security.JwtUtils;
 import org.school.management.api.security.UserDetailsImpl;
 import org.school.management.api.services.AuthenticationService;
+import org.school.management.api.services.ConvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,6 +47,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    ConvertService convertService;
+
     @Override
     public ResponseEntity<?> authenticate(LoginRequestDto loginRequestDto) {
         Authentication authentication = authenticationManager.authenticate(
@@ -57,61 +63,51 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponseDto(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles, jwt));
+        return ResponseEntity.ok(new JwtResponseDto(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles, jwt,"Bearer"));
     }
 
     @Override
     public ResponseEntity<?> register(SignupRequestDto signupRequestDto) {
-        if (userRepository.existsByUsername(signupRequestDto.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("El nombre de usuario ya está en uso!");
-        }
-
-        if (userRepository.existsByEmail(signupRequestDto.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("El correo electrónico ya está en uso!");
-        }
-
-        // Create new user's account
+        validateCredentials(signupRequestDto);
         User user = new User(signupRequestDto.getUsername(),
-                signupRequestDto.getEmail(),
-                encoder.encode(signupRequestDto.getPassword()));
+                signupRequestDto.getEmail(), this.encoder.encode(signupRequestDto.getPassword()));
+        user.setRoles(buildRoles(signupRequestDto.getRoles()));
+        return ResponseEntity.ok(this.convertService.convertToDto(this.userRepository.save(user)));
+    }
 
-        Set<String> strRoles = signupRequestDto.getRole();
-        Set<Role> roles = new HashSet<>();
+    private void validateCredentials(SignupRequestDto signupRequestDto){
+        if(this.userRepository.existsByUsername(signupRequestDto.getUsername()))
+            throw new AlreadyExistsException("El nombre de usuario ya está en uso!");
+        if(this.userRepository.existsByEmail(signupRequestDto.getEmail()))
+            throw new AlreadyExistsException("El correo electrónico ya está en uso!");
+        if(signupRequestDto.getRoles() == null || signupRequestDto.getRoles().isEmpty())
+            throw new ResourceNotFoundException("El usuario debe tener un rol!");
+    }
 
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(UserRole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("No se encontró el ROL proporcionado."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(UserRole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("No se encontró el ROL proporcionado."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(UserRole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("No se encontró el ROL proporcionado."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(UserRole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("No se encontró el ROL proporcionado."));
-                        roles.add(userRole);
+    private Set<Role> buildRoles(Set<String> roles) {
+        Set<Role> roleSet = new HashSet<>();
+        for (String role : roles) {
+            switch (role.toUpperCase()) {
+                case "ROLE_USER", "USER" -> {
+                    Role userRole = findRoleOrFail(UserRole.ROLE_USER);
+                    roleSet.add(userRole);
                 }
-            });
+                case "ROLE_MODERATOR", "MODERATOR" -> {
+                    Role modRole = findRoleOrFail(UserRole.ROLE_MODERATOR);
+                    roleSet.add(modRole);
+                }
+                case "ROLE_ADMIN", "ADMIN" -> {
+                    Role adminRole = findRoleOrFail(UserRole.ROLE_ADMIN);
+                    roleSet.add(adminRole);
+                }
+                default -> throw new ResourceNotFoundException("El rol = " + role + ", aún no fue creado. Comuníquese con el administrador!");
+            }
         }
+        return roleSet;
+    }
 
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("Usuario registrado con éxito!");
+    private Role findRoleOrFail(UserRole role) {
+        return this.roleRepository.findByName(role)
+                .orElseThrow(() -> new ResourceNotFoundException("No existe un rol con el nombre = " + role + "."));
     }
 }

@@ -4,10 +4,12 @@ import org.school.management.api.dto.AttendanceDto;
 import org.school.management.api.dto.CourseDto;
 import org.school.management.api.dto.StudentDto;
 import org.school.management.api.dto.TeacherDto;
+import org.school.management.api.dto.UserDto;
 import org.school.management.api.entities.Attendance;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
 import org.school.management.api.entities.Teacher;
+import org.school.management.api.entities.User;
 import org.springframework.data.domain.Page;
 
 import java.util.HashMap;
@@ -29,6 +31,10 @@ public interface ConvertService {
     Attendance convertToEntity(AttendanceDto attendanceDto);
 
     AttendanceDto convertToDto(Attendance attendance);
+
+    User convertToEntity(UserDto userDto);
+
+    UserDto convertToDto(User user);
 
     HashMap<String, Object> convertToStudentFormat(Page<Student> students);
 

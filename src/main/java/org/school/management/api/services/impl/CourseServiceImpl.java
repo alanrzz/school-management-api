@@ -51,6 +51,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private Course findOrFail(Long id) {
-        return this.courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe un curso con ID = " + id));
+        return this.courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe un curso con ID = " + id + "."));
     }
 }
