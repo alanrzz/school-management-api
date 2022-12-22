@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serial;
@@ -37,9 +39,17 @@ public class Attendance implements Serializable {
     @Column(name = "attendance_date", nullable = false)
     private LocalDate attendanceDate;
 
-    @ManyToMany(mappedBy = "studentAttendance")
+    @ManyToMany
+    @JoinTable(
+            name = "students_attendances",
+            joinColumns = @JoinColumn(name = "attendance_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "teacherAttendance")
+    @ManyToMany
+    @JoinTable(
+            name = "teachers_attendances",
+            joinColumns = @JoinColumn(name = "attendance_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
     private Set<Teacher> teachers = new HashSet<>();
 }

@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -59,12 +57,9 @@ public class Teacher implements Serializable {
     @OneToMany(mappedBy = "teacher")
     private Set<Course> courses = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "attendances_teachers",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "attendance_id"))
-    private Set<Attendance> teacherAttendance = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "teachers")
+    private Set<Attendance> attendances = new HashSet<>();
 
     public void removeCourse(Course course){
         this.courses.remove(course);

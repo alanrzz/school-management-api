@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serial;
@@ -58,12 +56,9 @@ public class Student implements Serializable {
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "attendances_students",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "attendance_id"))
-    private Set<Attendance> studentAttendance = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "students")
+    private Set<Attendance> attendances = new HashSet<>();
 
     public void addCourse(Course course) {
         this.courses.add(course);

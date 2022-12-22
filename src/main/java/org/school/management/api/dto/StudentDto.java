@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.school.management.api.entities.Course;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,4 +33,7 @@ public class StudentDto {
 
     @JsonIgnore
     private Set<CourseDto> courses = new HashSet<>();
+
+    @JsonIgnore
+    private Set<AttendanceDto> attendances = new HashSet<>();
 }
