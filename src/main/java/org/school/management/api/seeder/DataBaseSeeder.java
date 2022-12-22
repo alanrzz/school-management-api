@@ -1,10 +1,12 @@
 package org.school.management.api.seeder;
 
+import org.school.management.api.entities.Attendance;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Role;
 import org.school.management.api.entities.Student;
 import org.school.management.api.entities.Teacher;
 import org.school.management.api.enums.UserRole;
+import org.school.management.api.repositories.AttendanceRepository;
 import org.school.management.api.repositories.CourseRepository;
 import org.school.management.api.repositories.RoleRepository;
 import org.school.management.api.repositories.StudentRepository;
@@ -14,6 +16,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +36,9 @@ public class DataBaseSeeder {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    AttendanceRepository attendanceRepository;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
@@ -74,10 +81,19 @@ public class DataBaseSeeder {
         return studentRepository.saveAll(students);
     }
 
+    private void seedAttendances(List<Student> students, List<Teacher> teachers) {
+        List<Attendance> attendances = new ArrayList<>();
+        attendances.add(new Attendance(1L, LocalDate.of(2022, Month.JULY,21), new HashSet<>(students), new HashSet<>(teachers)));
+        attendances.add(new Attendance(2L, LocalDate.of(2022, Month.JULY,23), new HashSet<>(students), new HashSet<>(teachers)));
+        attendances.add(new Attendance(3L, LocalDate.of(2022, Month.JULY,27), new HashSet<>(students), new HashSet<>(teachers)));
+        attendanceRepository.saveAll(attendances);
+    }
+
     private void seedRelationships() {
         List<Course> courses = seedCourses();
         List<Teacher> teachers = seedTeachers();
         List<Student> students = seedStudents();
+        seedAttendances(students,teachers);
         for(int i = 0; i < courses.size(); i++){
             Course course = courses.get(i);
             course.setTeacher(teachers.get(i));
