@@ -1,5 +1,6 @@
 package org.school.management.api.services.impl;
 
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.dto.StudentDto;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Student;
@@ -9,6 +10,7 @@ import org.school.management.api.services.ConvertService;
 import org.school.management.api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -46,12 +48,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public String delete(Long id) {
+    public MessageResponseDto delete(Long id) {
         Student student = this.findOrFail(id);
         for (Course course : student.getCourses())
             student.removeCourse(course);
         this.studentRepository.deleteById(id);
-        return "Estudiante eliminado.";
+        return new MessageResponseDto(HttpStatus.OK, "Estudiante eliminado exitosamente!");
     }
 
     private Student findOrFail(Long id) {

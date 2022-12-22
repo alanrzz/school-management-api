@@ -2,6 +2,7 @@ package org.school.management.api.controllers.impl;
 
 import org.school.management.api.controllers.CourseController;
 import org.school.management.api.dto.CourseDto;
+import org.school.management.api.dto.MessageResponseDto;
 import org.school.management.api.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,7 @@ public class CourseControllerImpl implements CourseController {
 
     @Override
     @DeleteMapping(value= "{id}")
-    public ResponseEntity<String> delete(Long id) throws Exception {
+    public ResponseEntity<MessageResponseDto> delete(Long id) throws Exception {
         return new ResponseEntity<>(this.courseService.delete(id), HttpStatus.OK);
     }
 }

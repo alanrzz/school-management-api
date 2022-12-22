@@ -1,6 +1,7 @@
 package org.school.management.api.services;
 
 import org.school.management.api.dto.CourseDto;
+import org.school.management.api.dto.MessageResponseDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.HashMap;
@@ -15,5 +16,5 @@ public interface CourseService {
 
     CourseDto edit(Long id, CourseDto courseDto) throws Exception;
 
-    String delete(Long id) throws Exception;
+    MessageResponseDto delete(Long id) throws Exception;
 }
