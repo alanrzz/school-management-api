@@ -33,3 +33,6 @@ logging:
 security:
   jwt-secret: bf5p4ialbXNfUZAkhOQmNLa3EGry7Ah5
   jwt-expiration-ms: 86400000
+scheduling:
+  initial-delay-string: 3000 # in milliseconds
+  fixed-delay-string: 1000
