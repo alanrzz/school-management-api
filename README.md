@@ -1,4 +1,4 @@
-# School Management Api
+ # School Management Api :school:
 
 ### Introducción
 API REST desarrollada con el objetivo de mantener el registro de distintos datos en una institución educativa.
@@ -36,10 +36,10 @@ mvn spring-boot:run
 
 ### Autorización
 Para empezar a utilizar la API debe contar con un token de acceso. Este token se genera
-realizando una petición POST a `/authentication/signup` con un usuario, contraseña y rol.
+realizando una petición POST a **`/authentication/signup`** con un usuario, contraseña y rol.
 
-Ejemplo:
-```
+**Ejemplo:**
+```json
 {
   "email": "admin@admin.com",
   "password": "admin",
@@ -49,17 +49,17 @@ Ejemplo:
   "username": "admin"
 }
 ```
-Luego de haber registrado el usuario, debe autenticarlo con una petición POST a `/authentication/login` enviando sus credenciales.
+Luego de haber registrado el usuario, debe autenticarlo con una petición POST a **`/authentication/login`** enviando sus credenciales.
 
-Ejemplo:
-```
+**Ejemplo:**
+```json
 {
   "password": "admin",
   "username": "admin"
 }
 ```
 Si todo sale bien, deberías recibir una respuesta similar a esta con los datos del usuario (esto significa que ya estás autenticado):
-```
+```json
 {
   "id": 1,
   "username": "admin",
