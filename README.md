@@ -35,7 +35,42 @@ mvn spring-boot:run
 | DELETE | /api/students/:id | Eliminar un estudiante por su ID |
 
 ### Autorización
-🏗️...
+Para empezar a utilizar la API debe contar con un token de acceso. Este token se genera
+realizando una petición POST a `/authentication/signup` con un usuario, contraseña y rol.
+
+Ejemplo:
+```
+{
+  "email": "admin@admin.com",
+  "password": "admin",
+  "roles": [
+    "admin"
+  ],
+  "username": "admin"
+}
+```
+Luego de haber registrado el usuario, debe autenticarlo con una petición POST a `/authentication/login` enviando sus credenciales.
+
+Ejemplo:
+```
+{
+  "password": "admin",
+  "username": "admin"
+}
+```
+Si todo sale bien, deberías recibir una respuesta similar a esta con los datos del usuario (esto significa que ya estás autenticado):
+```
+{
+  "id": 1,
+  "username": "admin",
+  "email": "admin@admin.com",
+  "roles": [
+    "ROLE_ADMIN"
+  ],
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdHJpbmciLCJpYXQiOjE2Nzc1MTMwMjAsImV4cCI6MTY3NzU5OTQyMH0.hmvQlQverQAvy9Q45Jr8STo9ENBiXqhbEil5tKbpZsAFERYKYnZZtSEuyyqGsCHsQxo0R-F3GOljAemZWwUEkw",
+  "type": "Bearer"
+}
+```
 
 ### Tecnologías utilizadas
 * [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
