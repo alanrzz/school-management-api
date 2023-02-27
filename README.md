@@ -1,4 +1,4 @@
- # School Management Api :school:
+ # School Management Api :books:
 
 ### Introducción
 API REST desarrollada con el objetivo de mantener el registro de distintos datos en una institución educativa.
