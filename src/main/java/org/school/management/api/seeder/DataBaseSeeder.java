@@ -1,5 +1,10 @@
 package org.school.management.api.seeder;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import org.school.management.api.entities.Attendance;
 import org.school.management.api.entities.Course;
 import org.school.management.api.entities.Role;
@@ -15,12 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 @Component
 public class DataBaseSeeder {
@@ -48,44 +47,55 @@ public class DataBaseSeeder {
 
     private void seedRoles() {
         List<Role> roles = new ArrayList<>();
-        roles.add(new Role(1L, UserRole.ROLE_USER));
-        roles.add(new Role(2L, UserRole.ROLE_MODERATOR));
-        roles.add(new Role(3L, UserRole.ROLE_ADMIN));
+        roles.add(Role.builder().name(UserRole.ROLE_USER).build());
+        roles.add(Role.builder().name(UserRole.ROLE_MODERATOR).build());
+        roles.add(Role.builder().name(UserRole.ROLE_ADMIN).build());
         roleRepository.saveAll(roles);
     }
 
     private List<Course> seedCourses() {
         List<Course> courses = new ArrayList<>();
-        courses.add(new Course(1L,"Matematica","N/A","Primer año",null,null));
-        courses.add(new Course(2L,"Fisica","N/A","Primer año",null,null));
-        courses.add(new Course(3L,"Mecanica","N/A","Segundo año",null,null));
-        courses.add(new Course(4L,"Automatizacion","N/A","Segundo año",null,null));
+        courses.add(Course.builder().name("Matematica").description("N/A").level("Primer año").build());
+        courses.add(Course.builder().name("Fisica").description("N/A").level("Primer año").build());
+        courses.add(Course.builder().name("Mecanica").description("N/A").level("Segundo año").build());
+        courses.add(Course.builder().name("Automatizacion").description("N/A").level("Segundo año").build());
         return courseRepository.saveAll(courses);
     }
 
     private List<Teacher> seedTeachers() {
         List<Teacher> teachers = new ArrayList<>();
-        teachers.add(new Teacher(1L,"Carles Solorzano","carles@gmail.com","+543764010101","M",30,"Posadas",null,null));
-        teachers.add(new Teacher(2L,"Rubén Paz","ruben@gmail.com","+543764010101","M",27,"Posadas",null,null));
-        teachers.add(new Teacher(3L,"Salvador de Jesús","salvador@gmail.com","+543764010101","M",35,"Posadas",null,null));
-        teachers.add(new Teacher(4L,"Ángel Valdivia","angel@gmail.com","+543764010101","M",35,"Posadas",null,null));
+        teachers.add(Teacher.builder().name("Carles Solorzano")
+            .email("carles@gmail.com").phone("+543764010101").gender("M").age(30).address("Posadas").build());
+        teachers.add(Teacher.builder().name("Rubén Paz")
+            .email("ruben@gmail.com").phone("+543764010101").gender("M").age(27).address("Posadas").build());
+        teachers.add(Teacher.builder().name("Salvador de Jesús")
+            .email("salvador@gmail.com").phone("+543764010101").gender("M").age(35).address("Posadas").build());
+        teachers.add(Teacher.builder().name("Ángel Valdivia")
+            .email("angel@gmail.com").phone("+543764010101").gender("M").age(35).address("Posadas").build());
         return teacherRepository.saveAll(teachers);
     }
 
     private List<Student> seedStudents() {
         List<Student> students = new ArrayList<>();
-        students.add(new Student(1L,"Ovidio Téllez","ovidio@gmail.com","+543764010101","M",18,"Posadas",null,null));
-        students.add(new Student(2L,"Gregorio Serrano","gregorio@gmail.com","+543764010101","M",20,"Posadas",null,null));
-        students.add(new Student(3L,"Alex Moliner","alex@gmail.com","+543764010101","M",19,"Posadas",null,null));
-        students.add(new Student(4L,"Marita Gárate","marita@gmail.com","+543764010101","M",17,"Posadas",null,null));
+        students.add(Student.builder().name("Ovidio Téllez")
+            .email("ovidio@gmail.com").phone("+543764010101").gender("M").age(18).address("Posadas").build());
+        students.add(Student.builder().name("Gregorio Serrano")
+            .email("gregorio@gmail.com").phone("+543764010101").gender("M").age(20).address("Posadas").build());
+        students.add(Student.builder().name("Alex Moliner")
+            .email("alex@gmail.com").phone("+543764010101").gender("M").age(19).address("Posadas").build());
+        students.add(Student.builder().name("Marita Gárate")
+            .email("marita@gmail.com").phone("+543764010101").gender("F").age(17).address("Posadas").build());
         return studentRepository.saveAll(students);
     }
 
     private void seedAttendances(List<Student> students, List<Teacher> teachers) {
         List<Attendance> attendances = new ArrayList<>();
-        attendances.add(new Attendance(1L, LocalDate.of(2022, Month.JULY,21), new HashSet<>(students), new HashSet<>(teachers)));
-        attendances.add(new Attendance(2L, LocalDate.of(2022, Month.JULY,23), new HashSet<>(students), new HashSet<>(teachers)));
-        attendances.add(new Attendance(3L, LocalDate.of(2022, Month.JULY,27), new HashSet<>(students), new HashSet<>(teachers)));
+        attendances.add(Attendance.builder().attendanceDate(LocalDate.of(2022, Month.JULY,21))
+            .students(new HashSet<>(students)).teachers(new HashSet<>(teachers)).build());
+        attendances.add(Attendance.builder().attendanceDate(LocalDate.of(2022, Month.JULY,23))
+            .students(new HashSet<>(students)).teachers(new HashSet<>(teachers)).build());
+        attendances.add(Attendance.builder().attendanceDate(LocalDate.of(2022, Month.JULY,27))
+            .students(new HashSet<>(students)).teachers(new HashSet<>(teachers)).build());
         attendanceRepository.saveAll(attendances);
     }
 
