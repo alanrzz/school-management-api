@@ -1,57 +1,30 @@
 package org.school.management.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serial;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "teachers")
-public class Teacher implements Serializable {
+public class Teacher extends Person {
 
     @Serial
-    private static final long serialVersionUID = -5991470216286260262L;
-
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Column(name = "phone", nullable = false)
-    private String phone;
-
-    @Column(name = "gender", nullable = false)
-    private String gender;
-
-    @Column(name = "age", nullable = false)
-    private Integer age;
-
-    @Column(name = "address", nullable = false)
-    private String address;
+    private static final long serialVersionUID = -6988466030224859582L;
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")
