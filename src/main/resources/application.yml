@@ -31,5 +31,5 @@ logging:
       springframework: # or OFF
     root: # or OFF
 security:
-  jwt-secret: bf5p4ialbXNfUZAkhOQmNLa3EGry7Ah5
+  jwt-secret: ~
   jwt-expiration-ms: 86400000
