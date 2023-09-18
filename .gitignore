@@ -24,10 +24,10 @@ hs_err_pid*
 
 # others
 .idea/
-.mvn/
-mvnw
-mvnw.cmd
+#.mvn/
+#mvnw
+#mvnw.cmd
 HELP.md
-target/
+#target/
 data/
 
