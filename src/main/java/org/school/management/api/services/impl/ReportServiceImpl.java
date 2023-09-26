@@ -1,6 +1,24 @@
 package org.school.management.api.services.impl;
 
-import net.sf.jasperreports.engine.*;
+import static org.school.management.api.enums.Reports.CONTENT_DISPOSITION_FORM_DATA;
+import static org.school.management.api.enums.Reports.IN_EXTENSION;
+import static org.school.management.api.enums.Reports.OUT_EXTENSION;
+import static org.school.management.api.enums.Reports.REPORTS_FOLDER;
+import static org.school.management.api.enums.Reports.STUDENTS_REPORT;
+import static org.school.management.api.enums.Reports.TEACHERS_REPORT;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.school.management.api.dto.StudentDto;
 import org.school.management.api.dto.TeacherDto;
@@ -15,16 +33,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.school.management.api.enums.Reports.*;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -62,7 +70,7 @@ public class ReportServiceImpl implements ReportService {
         try {
             String filenameFromResource = REPORTS_FOLDER.getName() + filename + IN_EXTENSION.getName();
             String outFilename = filename + OUT_EXTENSION.getName();
-            JasperReport jasperReport = JasperCompileManager.compileReport(getFileFromResource(filenameFromResource).getPath());
+            JasperReport jasperReport = JasperCompileManager.compileReport(getFileFromResource(filenameFromResource));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, datasource);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
@@ -73,12 +81,11 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-    private File getFileFromResource(String filename) throws URISyntaxException {
+    private InputStream getFileFromResource(String filename) {
         ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(filename);
+        InputStream resource = classLoader.getResourceAsStream(filename);
         if (resource == null)
             throw new IllegalArgumentException("No se encontro el archivo: " + filename);
-        else
-            return new File(resource.toURI());
+        return resource;
     }
 }
