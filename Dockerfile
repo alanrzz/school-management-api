@@ -2,7 +2,7 @@ FROM maven:3.8.5-openjdk-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-jdk-alpine
+FROM azul/zulu-openjdk-alpine:17-jre
 COPY --from=build /target/spring-boot-docker.jar demo.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-Djava.awt.headless=true","-jar","demo.jar"]
